@@ -8,7 +8,7 @@ local Matter = require(Packages.matter)
 local Plasma = require(Packages.plasma)
 local HotReloader = require(Packages.rewire).HotReloader
 
-local components = require(ServerStorage.Server.components)
+local components = require(ServerStorage.Server.configs.serverComponents)
 local world = Matter.World.new()
 local state = {}
 local debugger = Matter.Debugger.new(Plasma)
