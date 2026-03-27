@@ -76,6 +76,7 @@ debugger:autoInitialize(loop)
 
 loop:begin({
     default = RunService.PostSimulation,
+    RenderStepped = RunService.PreRender,
     Stepped = RunService.PreSimulation,
 })
 

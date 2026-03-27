@@ -2,9 +2,10 @@ local ReplicatedStoage = game:GetService("ReplicatedStorage")
 local Matter = require(ReplicatedStoage.Packages.matter)
 
 export type TeleporterInterface = {
-    State: "Waiting" | "Teleporting" | "Countdown",
-    PlayersIn: { Player },
-    TimeLeftForTeleport: number?
+    state: "Waiting" | "Teleporting" | "Countdown",
+    playersIn: { Player },
+    timeLeftForTeleport: number?,
+    playerCount: number
 }
 
 export type ModelInterface = {
@@ -12,8 +13,9 @@ export type ModelInterface = {
 }
 
 local teleporterDefaultData: TeleporterInterface = {
-    State = "Waiting",
-    PlayersIn = {},
+    state = "Waiting",
+    playersIn = {},
+    playerCount = 0
 }
 
 local components = {

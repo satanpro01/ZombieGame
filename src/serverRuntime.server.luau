@@ -1,6 +1,7 @@
 --!native
 --!nonstrict
 local RunService = game:GetService("RunService")
+local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 local Packages = ReplicatedStorage.Packages
@@ -80,3 +81,15 @@ loop:begin({
     default = RunService.PostSimulation,
     Stepped = RunService.PreSimulation,
 })
+
+-- Setup tags for teleporters
+for _index, instance in ipairs(CollectionService:GetTagged("Teleporter")) do
+    world:spawn(
+        components.Teleporter({
+            playerCount = instance:GetAttribute("PlayerCount")
+        }),
+        components.Model({
+            model = instance
+        })
+    )
+end
