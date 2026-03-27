@@ -4,6 +4,7 @@ local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 local Packages = ReplicatedStorage.Packages
+local SystemsFolder = ServerStorage.Server.systems
 local Matter = require(Packages.matter)
 local Plasma = require(Packages.plasma)
 local HotReloader = require(Packages.rewire).HotReloader
@@ -64,7 +65,7 @@ local function unloadModule(_, context)
     end
 end
 
-hotReloader:scan(ServerStorage.Server.systems, loadModule, unloadModule)
+hotReloader:scan(SystemsFolder, loadModule, unloadModule)
 loop:scheduleSystems(firstRunSystems)
 
 firstRunSystems = nil
