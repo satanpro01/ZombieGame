@@ -1,5 +1,5 @@
---!nonstrict
 --!native
+--!nonstrict
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
@@ -25,7 +25,6 @@ debugger.findInstanceFromEntity = function(id)
 end
 
 local loop = Matter.Loop.new(world, state, debugger:getWidgets())
-loop:setWorlds({ World = world })
 
 local hotReloader = HotReloader.new()
 local firstRunSystems: any = {}
