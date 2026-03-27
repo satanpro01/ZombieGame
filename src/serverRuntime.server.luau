@@ -9,9 +9,10 @@ local Matter = require(Packages.matter)
 local Plasma = require(Packages.plasma)
 local HotReloader = require(Packages.rewire).HotReloader
 
-local components = require(ServerStorage.Server.configs.serverComponents)
+local authorizedPlayers = require(ReplicatedStorage.Shared.configs.authorizedPlayers)
+local components = require(ReplicatedStorage.Shared.configs.components)
 local world = Matter.World.new()
-local state = {}
+local state = {} -- add later if needed
 local debugger = Matter.Debugger.new(Plasma)
 
 debugger.findInstanceFromEntity = function(id)
@@ -22,6 +23,10 @@ debugger.findInstanceFromEntity = function(id)
     local model = world:get(id, components.Model)
 
     return if model then model.model else nil
+end
+
+debugger.authorize = function(player: Player)
+    return if table.find(authorizedPlayers, player.Name) then true else false
 end
 
 local loop = Matter.Loop.new(world, state, debugger:getWidgets())
@@ -72,6 +77,6 @@ firstRunSystems = nil
 debugger:autoInitialize(loop)
 
 loop:begin({
-    default = RunService.Heartbeat,
-    Stepped = RunService.Stepped,
+    default = RunService.PostSimulation,
+    Stepped = RunService.PreSimulation,
 })
