@@ -81,8 +81,10 @@ loop:begin({
 })
 
 if table.find(authorizedPlayers, me.Name) then
-    ContextActionService:BindAction("ToggleDebugger", function()
-        debugger:toggle()
+    ContextActionService:BindAction("ToggleDebugger", function(_actionName, inputState)
+        if inputState == Enum.UserInputState.Begin then
+            debugger:toggle()
+        end
     end, true, Enum.KeyCode.F4)
 
     ContextActionService:SetTitle("ToggleDebugger", "MatterDebugger")
