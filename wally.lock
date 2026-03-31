@@ -3,6 +3,11 @@
 registry = "test"
 
 [[package]]
+name = "csqrl/sift"
+version = "0.0.11"
+dependencies = []
+
+[[package]]
 name = "matter-ecs/matter"
 version = "0.8.5"
 dependencies = []
@@ -20,4 +25,4 @@ dependencies = []
 [[package]]
 name = "user/zombiegame"
 version = "0.1.0"
-dependencies = [["matter", "matter-ecs/matter@0.8.5"], ["plasma", "matter-ecs/plasma@0.4.4"], ["rewire", "sayhisam1/rewire@0.3.0"]]
+dependencies = [["matter", "matter-ecs/matter@0.8.5"], ["plasma", "matter-ecs/plasma@0.4.4"], ["rewire", "sayhisam1/rewire@0.3.0"], ["sift", "csqrl/sift@0.0.11"]]
