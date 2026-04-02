@@ -2,6 +2,7 @@
 --!nonstrict
 local RunService = game:GetService("RunService")
 local ContextActionService = game:GetService("ContextActionService")
+local CollectionService = game:GetService("CollectionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Packages = ReplicatedStorage.Packages
@@ -79,6 +80,16 @@ loop:begin({
     RenderStepped = RunService.PreRender,
     Stepped = RunService.PreSimulation,
 })
+
+-- Setup tags for teleporters
+for _index, instance in ipairs(CollectionService:GetTagged("Teleporter")) do
+    world:spawn(
+        components.Teleporter(), -- only used for identifying teleporters
+        components.Model({
+            model = instance
+        })
+    )
+end
 
 if table.find(authorizedPlayers, me.Name) then
     ContextActionService:BindAction("ToggleDebugger", function(_actionName, inputState)
