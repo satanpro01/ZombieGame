@@ -84,7 +84,7 @@ loop:begin({
 
 -- Setup tags for teleporters
 for _index, instance in ipairs(CollectionService:GetTagged("Teleporter")) do
-    world:spawn(
+    local assignedId = world:spawn(
         components.Teleporter({
             playerCount = instance:GetAttribute("PlayerCount")
         }),
@@ -92,4 +92,6 @@ for _index, instance in ipairs(CollectionService:GetTagged("Teleporter")) do
             model = instance
         })
     )
+
+    instance:SetAttribute("ServerEntityId", assignedId)
 end
