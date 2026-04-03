@@ -157,7 +157,7 @@ end
 	@param instance Instance | { [string]: CustomEvent } | CustomEvent -- The instance or the custom event, or a table that has the event you want to connect to
 	@param event string | RBXScriptSignal | CustomEvent -- The name of, or the actual event that you want to connect to
 ]=]
-local function useEvent(instance, event): () -> (number, ...any)
+local function useEvent(instance: Instance, event: string): () -> (number, ...any)
 	assert(instance ~= nil, "Instance is nil")
 	assert(event ~= nil, "Event is nil")
 
