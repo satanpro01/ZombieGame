@@ -6,14 +6,17 @@ local CollectionService = game:GetService("CollectionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Packages = ReplicatedStorage.Packages
+local Configs = ReplicatedStorage.Shared.configs
 local SystemsFolder = ReplicatedStorage.Client.systems
 local Matter = require(Packages.matter)
 local Plasma = require(Packages.plasma)
 local HotReloader = require(Packages.rewire).HotReloader
+local Net = require(Packages.yetanothernet)
 
 local me = Players.LocalPlayer
-local authorizedPlayers = require(ReplicatedStorage.Shared.configs.authorizedPlayers)
-local components = require(ReplicatedStorage.Shared.configs.components)
+local authorizedPlayers = require(Configs.authorizedPlayers)
+local components = require(Configs.components)
+local routes = require(Configs.routes)
 local world = Matter.World.new()
 local state = {} -- add later if needed
 local debugger = Matter.Debugger.new(Plasma)
@@ -29,6 +32,8 @@ debugger.findInstanceFromEntity = function(id)
 end
 
 local loop = Matter.Loop.new(world, state, debugger:getWidgets())
+
+Net.start(loop, routes)
 
 local hotReloader = HotReloader.new()
 local firstRunSystems: any = {}
@@ -84,7 +89,7 @@ loop:begin({
 -- Setup tags for teleporters
 for _index, instance in ipairs(CollectionService:GetTagged("Teleporter")) do
     world:spawn(
-        components.Teleporter(), -- only used for identifying teleporters
+        components.Teleporter(), -- not replicated; thus, should only be used for identifying teleporters
         components.Model({
             model = instance
         })
