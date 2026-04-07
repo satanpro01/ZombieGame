@@ -47,7 +47,7 @@ local function loadModule(module, context)
     local ok, system = pcall(require, module)
 
     if not ok then
-        warn("Error when hot-reloading system", module.name, system, "- serverRuntime")
+        warn("Error when hot-reloading system", module.name, system)
         return
     end
 

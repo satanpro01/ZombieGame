@@ -11,7 +11,6 @@ type anyDictType = { [any]: any }
 local function detectTouches(world)
     local myCharacter = me.Character
     if not myCharacter then
-        print("No character detected for local player - client/systems/teleporter_detectTouches.luau")
         return
     end
 

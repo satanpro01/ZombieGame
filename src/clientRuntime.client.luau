@@ -40,12 +40,13 @@ local firstRunSystems: any = {}
 local systemsByModule = {}
 
 local function loadModule(module, context)
+    print("loadmodule called", module.name, context.isReloading)
     local originalModule = context.originalModule
 
     local ok, system = pcall(require, module)
 
     if not ok then
-        warn("Error when hot-reloading system", module.name, system, "- serverRuntime")
+        warn("Error when hot-reloading system", module.name, system)
         return
     end
 
