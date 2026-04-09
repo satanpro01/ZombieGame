@@ -40,7 +40,6 @@ local firstRunSystems: any = {}
 local systemsByModule = {}
 
 local function loadModule(module, context)
-    print("loadmodule called", module.name, context.isReloading)
     local originalModule = context.originalModule
 
     local ok, system = pcall(require, module)
