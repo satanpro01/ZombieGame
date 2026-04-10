@@ -6,15 +6,13 @@ local components = require(ReplicatedStorage.Shared.configs.components)
 local routes = require(ReplicatedStorage.Shared.configs.routes)
 local useEvent = Matter.useEvent
 
-type anyDictType = { [any]: any }
-
 local function detectTouches(world)
     local myCharacter = me.Character
     if not myCharacter then
         return
     end
 
-    for _id, _teleporter, model: components.ModelInterface & anyDictType in world:query(components.Teleporter, components.Model) do
+    for _id, _teleporter, model: components.ModelInterface & components.anyDictType in world:query(components.Teleporter, components.Model) do
         local zoneContainer: Part = model.model.ZoneContainer
 
         for _index, touchedPart: BasePart in useEvent(zoneContainer, "Touched") do

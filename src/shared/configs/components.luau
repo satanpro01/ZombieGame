@@ -12,11 +12,13 @@ export type ModelInterface = {
     model: (Model | BasePart)?
 }
 
+export type anyDictType = { [any]: any } -- used for merging types so it can prevent type issues
+
 local teleporterDefaultData: TeleporterInterface = {
     state = "Waiting",
     playersIn = {},
     playerCount = 0,
-    timeLeftForTeleport = 5
+    timeLeftForTeleport = 7
 }
 
 local components = {

@@ -4,5 +4,5 @@ end
 return {
     system = displayTexts,
     event = "default",
-    priority = 1
+    priority = 2
 }
