@@ -16,20 +16,19 @@ local function main(world)
         end
 
         world:insert(entityId, teleporter:patch({
-            playersIn = table.insert(teleporter.playersIn, player)
+            playersIn = Sift.Array.append(teleporter.playersIn, player)
         }))
     end
 
     for _index, player: Player, entityId: number in teleporterExited:query() do
         local teleporter: components.TeleporterInterface & anyDictType = world:get(entityId, components.Teleporter)
-        local playerIndex = table.find(teleporter.playersIn, player)
 
-        if teleporter.state == "Teleporting" or #teleporter.playersIn <= 0 or not playerIndex then
+        if teleporter.state == "Teleporting" or #teleporter.playersIn <= 0 or not table.find(teleporter.playersIn, player) then
             continue
         end
 
         world:insert(entityId, teleporter:patch({
-            playersIn = Sift.Array.removeIndex(teleporter.playersIn, playerIndex)
+            playersIn = Sift.Array.removeValue(teleporter.playersIn, player)
         }))
     end
 end
