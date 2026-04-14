@@ -5,7 +5,7 @@ local routes = require(ReplicatedStorage.Shared.configs.routes)
 local teleporterEntered = routes.TeleporterEntered
 local teleporterExited = routes.TeleporterExited
 
-local function main(world)
+local function manageEntry(world)
     for _index, player: Player, entityId: number in teleporterEntered:query() do
         local teleporter: components.TeleporterInterface & components.anyDictType = world:get(entityId, components.Teleporter)
 
@@ -16,6 +16,7 @@ local function main(world)
         if #teleporter.playersIn + 1 == teleporter.playerCount then
             world:insert(entityId, teleporter:patch({
                 state = "Countdown",
+                timeLeftForTeleport = components.teleporterDefaultData.timeLeftForTeleport,
                 playersIn = Sift.Array.append(teleporter.playersIn, player)
             }))
         else
@@ -35,6 +36,7 @@ local function main(world)
         if teleporter.state == "Countdown" then
             world:insert(entityId, teleporter:patch({
                 state = "Waiting",
+                timeLeftForTeleport = components.teleporterDefaultData.timeLeftForTeleport,
                 playersIn = Sift.Array.removeValue(teleporter.playersIn, player)
             }))
         else
@@ -46,7 +48,7 @@ local function main(world)
 end
 
 return {
-    system = main,
+    system = manageEntry,
     event = "default",
     priority = 0
 }

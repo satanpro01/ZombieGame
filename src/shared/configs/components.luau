@@ -23,7 +23,8 @@ local teleporterDefaultData: TeleporterInterface = {
 
 local components = {
     Model = Matter.component("Model", {}),
-    Teleporter = Matter.component("Teleporter", teleporterDefaultData) -- not replicated on client
+    Teleporter = Matter.component("Teleporter", teleporterDefaultData), -- not replicated on client
+    teleporterDefaultData = teleporterDefaultData
 }
 
 return components
