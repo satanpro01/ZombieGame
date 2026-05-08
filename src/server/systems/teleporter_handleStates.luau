@@ -1,7 +1,11 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TeleportService = game:GetService("TeleportService")
 local Matter = require(ReplicatedStorage.Packages.matter)
+local Sift = require(ReplicatedStorage.Packages.sift)
 local components = require(ReplicatedStorage.Shared.configs.components)
+local routes = require(ReplicatedStorage.Shared.configs.routes)
+
+local TARGET_PLACE_ID = 72514053494527
 
 local function handleStates(world)
     for entityId: number, teleporter: components.TeleporterInterface & components.anyDictType in world:query(components.Teleporter) do
@@ -19,7 +23,24 @@ local function handleStates(world)
         end
 
         if teleporter.state == "Teleporting" then
-            
+            for _index, player: Player, _teleportResult, errorMessage: string in Matter.useEvent(TeleportService, "TeleportInitFailed") do
+                if table.find(teleporter.playersIn, player) then
+                    warn(`Teleport in id {entityId} failed for player {player.Name}: {errorMessage}`)
+
+                    world:insert(entityId, teleporter:patch({
+                        state = "Waiting",
+                        playersIn = Sift.Array.removeValue(teleporter.playersIn, player)
+                    }))
+
+                    routes.TeleportFailed:send():to(player)
+                end
+            end
+
+            if #teleporter.playersIn == 0 then
+                world:insert(entityId, teleporter:patch({
+                    state = "Waiting"
+                }))
+            end
         end
     end
 end

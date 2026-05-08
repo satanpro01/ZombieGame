@@ -78,7 +78,7 @@ type RouteImpl<U...> = {
 	_updateSnapshot: (Route<U...>, Bridge) -> (),
 	addIncomingMiddleware: (self: Route<U...>, middleware: (...any) -> ...any) -> (),
 	addOutgoingMiddleware: (self: Route<U...>, middleware: (...any) -> ...any) -> (),
-	send: (self: Route<U...>,U...) -> SendRequest,
+	send: (self: Route<U...>, U...) -> SendRequest,
 	query: (self: Route<U...>) -> QueryResult<U...>,
 
 	start: (loop: any, { Route<U...> }) -> (),
