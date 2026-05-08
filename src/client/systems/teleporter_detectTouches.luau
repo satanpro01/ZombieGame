@@ -1,4 +1,3 @@
-local PlayerDataService = game:GetService("PlayerDataService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Matter = require(ReplicatedStorage.Packages.matter)
 
