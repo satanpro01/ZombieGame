@@ -5,7 +5,8 @@ export type TeleporterInterface = {
     state: "Waiting" | "Teleporting" | "Countdown",
     playersIn: { Player },
     timeLeftForTeleport: number,
-    playerCount: number
+    playerCount: number,
+    hasTeleported: boolean
 }
 
 export type ModelInterface = {
@@ -18,7 +19,8 @@ local teleporterDefaultData: TeleporterInterface = {
     state = "Waiting",
     playersIn = {},
     playerCount = 0,
-    timeLeftForTeleport = 7
+    timeLeftForTeleport = 7,
+    hasTeleported = false
 }
 
 local components = {
