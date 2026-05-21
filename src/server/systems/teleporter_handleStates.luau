@@ -40,7 +40,6 @@ local function handleStates(world)
                     warn(`Teleport in id {entityId} failed for player {player.Name}: {errorMessage}`)
 
                     world:insert(entityId, teleporter:patch({
-                        state = "Waiting",
                         playersIn = Sift.Array.removeValue(teleporter.playersIn, player)
                     }))
 
@@ -50,7 +49,8 @@ local function handleStates(world)
 
             if #teleporter.playersIn == 0 then
                 world:insert(entityId, teleporter:patch({
-                    state = "Waiting"
+                    state = "Waiting",
+                    hasTeleported = false
                 }))
             end
         end
