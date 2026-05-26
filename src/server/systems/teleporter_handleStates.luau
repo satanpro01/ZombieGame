@@ -26,7 +26,7 @@ local function handleStates(world)
 
         if teleporter.state == "Teleporting" then
             if not teleporter.hasTeleported then
-                TeleportService:TeleportAsync(TARGET_PLACE_ID, teleporter.playersIn, TELEPORT_OPTIONS)
+                task.spawn(TeleportService.TeleportAsync, TeleportService, TARGET_PLACE_ID, teleporter.playersIn, TELEPORT_OPTIONS)
 
                 world:insert(entityId, teleporter:patch({
                     hasTeleported = true

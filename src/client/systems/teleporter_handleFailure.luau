@@ -6,8 +6,7 @@ local routes = require(ReplicatedStorage.Shared.configs.routes)
 local teleportFailed = routes.TeleportFailed
 
 local function handleFailure()
-    -- do fixes
-    if teleportFailed:query() then
+    for _index in teleportFailed:query() do
         if me.Character and me.Character:FindFirstChild("Humanoid") then
             me.Character.Humanoid.Health = 0
 
@@ -17,6 +16,8 @@ local function handleFailure()
                 Duration = 3
             })
         end
+
+        return
     end
 end
 
