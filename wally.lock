@@ -8,6 +8,11 @@ version = "0.0.11"
 dependencies = []
 
 [[package]]
+name = "evaera/promise"
+version = "4.0.0"
+dependencies = []
+
+[[package]]
 name = "matter-ecs/matter"
 version = "0.8.5"
 dependencies = []
@@ -25,7 +30,7 @@ dependencies = []
 [[package]]
 name = "user/zombiegame"
 version = "0.1.0"
-dependencies = [["matter", "matter-ecs/matter@0.8.5"], ["plasma", "matter-ecs/plasma@0.4.4"], ["rewire", "sayhisam1/rewire@0.3.0"], ["sift", "csqrl/sift@0.0.11"], ["yetanothernet", "yetanotherclown/yetanothernet@0.9.0"]]
+dependencies = [["matter", "matter-ecs/matter@0.8.5"], ["plasma", "matter-ecs/plasma@0.4.4"], ["promise", "evaera/promise@4.0.0"], ["rewire", "sayhisam1/rewire@0.3.0"], ["sift", "csqrl/sift@0.0.11"], ["yetanothernet", "yetanotherclown/yetanothernet@0.9.0"]]
 
 [[package]]
 name = "yetanotherclown/yetanothernet"

@@ -2,6 +2,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TeleportService = game:GetService("TeleportService")
 local Matter = require(ReplicatedStorage.Packages.matter)
 local Sift = require(ReplicatedStorage.Packages.sift)
+local Promise = require(ReplicatedStorage.Packages.promise)
 local components = require(ReplicatedStorage.Shared.configs.components)
 local routes = require(ReplicatedStorage.Shared.configs.routes)
 
@@ -26,7 +27,19 @@ local function handleStates(world)
 
         if teleporter.state == "Teleporting" then
             if not teleporter.hasTeleported then
-                task.spawn(TeleportService.TeleportAsync, TeleportService, TARGET_PLACE_ID, teleporter.playersIn, TELEPORT_OPTIONS)
+                Promise.try(function()
+                    TeleportService:TeleportAsync(TARGET_PLACE_ID, teleporter.playersIn, TELEPORT_OPTIONS)
+                end):catch(function(errorMessage: string)
+                    warn(`Teleport in id {entityId} failed: {errorMessage}`)
+
+                    routes.TeleportFailed:send():to(teleporter.playersIn)
+
+                    world:insert(entityId, teleporter:patch({
+                        state = "Waiting",
+                        hasTeleported = false,
+                        playersIn = {}
+                    }))
+                end)
 
                 world:insert(entityId, teleporter:patch({
                     hasTeleported = true
