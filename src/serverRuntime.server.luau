@@ -1,4 +1,3 @@
---!native
 --!nonstrict
 local RunService = game:GetService("RunService")
 local CollectionService = game:GetService("CollectionService")

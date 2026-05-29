@@ -8,6 +8,13 @@ local routes = require(ReplicatedStorage.Shared.configs.routes)
 
 local TARGET_PLACE_ID = 72514053494527
 
+local function teleport(targetPlayers: { Player })
+    local teleportOptions = Instance.new("TeleportOptions")
+    teleportOptions.ShouldReserveServer = true
+
+    TeleportService:TeleportAsync(TARGET_PLACE_ID, targetPlayers, teleportOptions)
+end
+
 local function handleStates(world)
     for entityId: number, teleporter: components.TeleporterInterface & components.anyDictType in world:query(components.Teleporter) do
         if teleporter.state == "Countdown" then
@@ -25,23 +32,20 @@ local function handleStates(world)
 
         if teleporter.state == "Teleporting" then
             if not teleporter.hasTeleported then
-                local teleportOptions = Instance.new("TeleportOptions")
-                teleportOptions.ShouldReserveServer = true
-
-                Promise.try(function()
-                    TeleportService:TeleportAsync(TARGET_PLACE_ID, teleporter.playersIn, teleportOptions)
-                end):catch(function(errorMessage: string)
+                world:insert(entityId, teleporter:patch({
+                    hasTeleported = true
+                }))
+                
+                Promise.try(teleport, teleporter.playersIn)
+                :catch(function(errorMessage: string)
                     warn(`Teleport in id {entityId} failed: {errorMessage}`)
 
                     routes.TeleportFailed:send():to(teleporter.playersIn)
-
+                    
                     world:insert(entityId, teleporter:patch({
                         state = "Waiting",
-                        playersIn = {}
-                    }))
-                end):andThen(function()
-                    world:insert(entityId, teleporter:patch({
-                        hasTeleported = true
+                        playersIn = {},
+                        hasTeleported = false
                     }))
                 end)
 

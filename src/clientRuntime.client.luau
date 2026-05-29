@@ -1,4 +1,3 @@
---!native
 --!nonstrict
 local RunService = game:GetService("RunService")
 local ContextActionService = game:GetService("ContextActionService")
