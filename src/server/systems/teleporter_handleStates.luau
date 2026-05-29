@@ -1,5 +1,6 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TeleportService = game:GetService("TeleportService")
+local Players = game:GetService("Players")
 local Matter = require(ReplicatedStorage.Packages.matter)
 local Sift = require(ReplicatedStorage.Packages.sift)
 local Promise = require(ReplicatedStorage.Packages.promise)
@@ -61,6 +62,14 @@ local function handleStates(world)
                     }))
 
                     routes.TeleportFailed:send():to(player)
+                end
+            end
+
+            for _index, player: Player in Matter.useEvent(Players, "PlayerRemoving") do
+                if table.find(teleporter.playersIn, player) then
+                    world:insert(entityId, teleporter:patch({
+                        playersIn = Sift.Array.removeValue(teleporter.playersIn, player)
+                    }))
                 end
             end
 
