@@ -17,6 +17,11 @@ local function teleport(targetPlayers: { Player })
 end
 
 local function handleStates(world)
+    local playersLeft = {}
+    for _index, player: Player in Matter.useEvent(Players, "PlayerRemoving") do
+        table.insert(playersLeft, player)
+    end
+    
     for entityId: number, teleporter: components.TeleporterInterface & components.anyDictType in world:query(components.Teleporter) do
         if teleporter.state == "Countdown" then
             if (teleporter.timeLeftForTeleport :: number) <= 0 then
@@ -62,14 +67,6 @@ local function handleStates(world)
                     }))
 
                     routes.TeleportFailed:send():to(player)
-                end
-            end
-
-            for _index, player: Player in Matter.useEvent(Players, "PlayerRemoving") do
-                if table.find(teleporter.playersIn, player) then
-                    world:insert(entityId, teleporter:patch({
-                        playersIn = Sift.Array.removeValue(teleporter.playersIn, player)
-                    }))
                 end
             end
 
