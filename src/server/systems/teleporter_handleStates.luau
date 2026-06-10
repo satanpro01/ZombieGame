@@ -23,6 +23,22 @@ local function handleStates(world)
     end
     
     for entityId: number, teleporter: components.TeleporterInterface & components.anyDictType in world:query(components.Teleporter) do
+        if next(playersLeft) then
+            if teleporter.state == "Countdown" then
+                world:insert(entityId, teleporter:patch({
+                    state = "Waiting",
+                    timeLeftForTeleport = components.teleporterDefaultData.timeLeftForTeleport,
+                    playersIn = Sift.Array.removeValues(teleporter.playersIn, unpack(playersLeft))
+                }))
+
+                continue
+            else
+                world:insert(entityId, teleporter:patch({
+                    playersIn = Sift.Array.removeValues(teleporter.playersIn, unpack(playersLeft))
+                }))
+            end
+        end
+
         if teleporter.state == "Countdown" then
             if (teleporter.timeLeftForTeleport :: number) <= 0 then
                 world:insert(entityId, teleporter:patch({
